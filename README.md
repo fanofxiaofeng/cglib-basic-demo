@@ -251,7 +251,7 @@ I will show the conclusions here directly.
 3. `i1` is related to a specific method in child class
 4. `i2` is related to a specific method in parent class
 
-Let's see two important methods inside `MethodProxy`.
+Let's take a look at two important methods inside `MethodProxy`.
 
 ```java
     /**
@@ -264,7 +264,7 @@ Let's see two important methods inside `MethodProxy`.
  * @throws Throwable the bare exceptions thrown by the called method are passed through
  * without wrapping in an <code>InvocationTargetException</code>
  */
-public Object invoke(Object obj,Object[]args)throws Throwable{
+public Object invoke(Object obj,Object[]args) throws Throwable {
     try {
         init();
         FastClassInfo fci=fastClassInfo;
@@ -284,7 +284,7 @@ public Object invoke(Object obj,Object[]args)throws Throwable{
  * @throws Throwable the bare exceptions thrown by the called method are passed through
  * without wrapping in an <code>InvocationTargetException</code>
  */
-public Object invokeSuper(Object obj,Object[]args)throws Throwable{
+public Object invokeSuper(Object obj,Object[]args) throws Throwable {
     try {
         init();
         FastClassInfo fci=fastClassInfo;
@@ -421,5 +421,14 @@ public class IntegerCalculator$$EnhancerByCGLIB$$ae52e4a0$$FastClassByCGLIB$$4f0
 ```
 
 
+## Step 5: Summary
+Let's make a brief summary here.
+If the parent class defines a method `add` (its name is not important),
+then the child class will contain two corresponding methods.
+1. an `add'` method (its real name might be something like `CGLIB$add$n`) that can invoke `add` method in parent class
+2. an `override` version for `add`
 
+So if we invoke `add` method with a child class instance,
+then the logic chain will be like this
+`child.add(...)` -> `methodIntercepter.invoke(...)` -> `methodProxy.invokeSuper(...)` -> `child.add'(...)` -> `super.add(...) (i.e. parent.add(...))`
 
