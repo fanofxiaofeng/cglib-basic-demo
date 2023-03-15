@@ -26,11 +26,11 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
 
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:31.1-jre'
 }
 
+// Please refer to https://docs.gradle.org/current/userguide/application_plugin.html for more details
 application {
-    // Define the main class for the application.
-    mainClass = 'com.demo.cg.App'
+    applicationDefaultJvmArgs = ["--add-opens=java.base/java.lang=ALL-UNNAMED"]
+    // Please refer to https://stackoverflow.com/a/21360609 for more details
+    mainClassName = project.hasProperty("mainClass") ? project.getProperty("mainClass") : "NULL"
 }
