@@ -14,7 +14,7 @@ public class IntegerAdder {
 ```
 
 Its complete code is in
-[IntegerCalculator.java](app/src/main/java/com/demo/cg/IntegerAdder.java)
+[IntegerAdder.java](app/src/main/java/com/demo/cg/IntegerAdder.java)
 
 ## Step 2: Create a class that implements `FixedValue` interface
 
