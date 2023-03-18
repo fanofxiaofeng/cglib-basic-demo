@@ -35,10 +35,11 @@ public class AppV1 {
 }
 ```
 
-Its complete code for is in
+Its complete code is in
 [AppV1.java](app/src/main/java/com/demo/AppV1.java)
 
-Then we can run `main` method in `AppV1` with the following command
+To run the `main` method in `AppV1`, 
+just execute the following command in the root directory of this project.
 ```bash
 gradle -PmainClass=com.demo.AppV1 :app:run
 ```
@@ -49,9 +50,9 @@ The result is as follows
 ## Step 3: That does the child class look like?
 In step 2, `Enhancer` helps us create a child class for `IntegerAdder`.
 But what does this child class look like?
-The following line can dump the child class into a local file.
+The following line can dump the child class inside a specified path.
 ```java
-System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "${some dir to save class file}");
+System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "${some specified path}");
 ```
 
 Since I don't want to change the code in `AppV1`, 
@@ -74,7 +75,7 @@ public class AppV2 {
 }
 ```
 
-Please run the following command to run the `main` method in `AppV2`.
+Please execute the following command to run the `main` method in `AppV2`.
 
 ```bash
 gradle -PmainClass=com.demo.AppV2 :app:run
@@ -85,7 +86,7 @@ gradle -PmainClass=com.demo.AppV2 :app:run
 We can that a class file is generated as expected.
 ![child.png](pic/v2/child.png)
 
-The decompiled result are as follows.
+The decompiled result is as follows.
 ```java
 //
 // Source code recreated from a .class file by IntelliJ IDEA
