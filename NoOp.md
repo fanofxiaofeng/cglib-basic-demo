@@ -81,9 +81,10 @@ Please execute the following command to run the `main` method in `AppV2`.
 gradle -PmainClass=com.demo.AppV2 :app:run
 ```
 
+The result is as follows.
 ![result.png](pic/v2/result.png)
 
-We can that a class file is generated as expected.
+We can see that a class file is generated in the specified path as expected.
 ![child.png](pic/v2/child.png)
 
 The decompiled result is as follows.
