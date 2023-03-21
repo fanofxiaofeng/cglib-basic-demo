@@ -7,7 +7,7 @@ This `class` can calculate the sum of two integer parameters.
 
 ```kotlin
 open class IntegerAdder {
-    fun add(a: Int, b: Int): Int {
+    open fun add(a: Int, b: Int): Int {
         return a + b
     }
 }
@@ -44,14 +44,14 @@ gradle -PmainClass=com.demo.AppV1 :app:run
 ```
 
 The result is as follows
-![result](pic/v1/result.png)
+![result.png](pic/v1/result.png)
 
-## Step 3: That does the child class look like?
+## Step 3: What does the child class look like?
 In step 2, `Enhancer` helps us create a child class for `IntegerAdder`.
 But what does this child class look like?
 The following line can dump the child class inside a specified path.
 ```kotlin
-System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, OUTPUT_DIR)
+System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "${some specified path}")
 ```
 
 Since I don't want to change the code in `AppV1`, 
@@ -201,7 +201,6 @@ public class IntegerAdder$$EnhancerByCGLIB$$81dc231c extends IntegerAdder implem
         CGLIB$STATICHOOK1();
     }
 }
-
 ```
 
 We can that there is no `override` version for the `add` method in this child class.
