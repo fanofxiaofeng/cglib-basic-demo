@@ -7,6 +7,9 @@
  */
 
 plugins {
+    // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
+    id 'org.jetbrains.kotlin.jvm' version '1.7.10'
+
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
 }
@@ -32,5 +35,5 @@ dependencies {
 application {
     applicationDefaultJvmArgs = ["--add-opens=java.base/java.lang=ALL-UNNAMED"]
     // Please refer to https://stackoverflow.com/a/21360609 for more details
-    mainClassName = project.hasProperty("mainClass") ? project.getProperty("mainClass") : "NULL"
+    getMainClass().set(project.hasProperty("mainClass") ? project.getProperty("mainClass") : "NULL")
 }

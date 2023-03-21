@@ -5,38 +5,37 @@
 Let's write code for `IntegerAdder`.
 This `class` can calculate the sum of two integer parameters.
 
-```java
-public class IntegerAdder {
-    public int add(int a, int b) {
-        return a + b;
+```kotlin
+open class IntegerAdder {
+    fun add(a: Int, b: Int): Int {
+        return a + b
     }
 }
 ```
 
 Its complete code is in
-[IntegerAdder.java](app/src/main/java/com/demo/cg/IntegerAdder.java)
+[IntegerAdder.kt](app/src/main/kotlin/com/demo/cg/IntegerAdder.kt)
 
 
 ## Step 2: Use `Enhancer` and `NoOp` to generate a child class for `IntegerAdder`
 
 Now we can use `Enhancer` and `NoOp` in `cglib` to create a child `class` for `IntegerAdder`.
 
-```java
-public class AppV1 {
-    public static void main(String[] args) {
-        NoOp noOp = NoOp.INSTANCE;
-
-        IntegerAdder calculator =
-                (IntegerAdder) Enhancer.create(IntegerAdder.class, noOp);
-
-        int result = calculator.add(1, 2);
-        System.out.println("result: " + result);
+```kotlin
+object AppV1 {
+    @JvmStatic
+    fun main(args: Array<String>) {
+        val noOp = NoOp.INSTANCE
+        val calculator =
+            Enhancer.create(IntegerAdder::class.java, noOp) as IntegerAdder
+        val result = calculator.add(1, 2)
+        println("result: $result")
     }
 }
 ```
 
 Its complete code is in
-[AppV1.java](app/src/main/java/com/demo/AppV1.java)
+[AppV1.kt](app/src/main/kotlin/com/demo/AppV1.kt)
 
 To run the `main` method in `AppV1`, 
 just execute the following command in the root directory of this project.
@@ -51,26 +50,24 @@ The result is as follows
 In step 2, `Enhancer` helps us create a child class for `IntegerAdder`.
 But what does this child class look like?
 The following line can dump the child class inside a specified path.
-```java
-System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "${some specified path}");
+```kotlin
+System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, OUTPUT_DIR)
 ```
 
 Since I don't want to change the code in `AppV1`, 
-let's create another file, i.e. [AppV2.java](app/src/main/java/com/demo/AppV2.java).
-```java
-public class AppV2 {
+let's create another file, i.e. [AppV2.kt](app/src/main/kotlin/com/demo/AppV2.kt).
+```kotlin
+object AppV2 {
+    private const val OUTPUT_DIR = "./generated/v2"
 
-    private static final String OUTPUT_DIR = "./generated/v2";
-
-    public static void main(String[] args) {
-        System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, OUTPUT_DIR);
-        NoOp noOp = NoOp.INSTANCE;
-
-        IntegerAdder calculator =
-                (IntegerAdder) Enhancer.create(IntegerAdder.class, noOp);
-
-        int result = calculator.add(1, 2);
-        System.out.println("result: " + result);
+    @JvmStatic
+    fun main(args: Array<String>) {
+        System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, OUTPUT_DIR)
+        val noOp = NoOp.INSTANCE
+        val calculator =
+            Enhancer.create(IntegerAdder::class.java, noOp) as IntegerAdder
+        val result = calculator.add(1, 2)
+        println("result: $result")
     }
 }
 ```
@@ -87,7 +84,8 @@ The result is as follows.
 We can see that a class file is generated in the specified path as expected.
 ![child.png](pic/v2/child.png)
 
-The decompiled result is as follows.
+With the help of [IntelliJ IDEA](https://www.jetbrains.com/idea/),
+we can see the decompiled result as follows.
 ```java
 //
 // Source code recreated from a .class file by IntelliJ IDEA
