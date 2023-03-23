@@ -233,4 +233,47 @@ public class IntegerAdder$$EnhancerByCGLIB$$eefed20f extends IntegerAdder implem
 
 ```
 
-TO BE CONTINUED
+Let's take a closer look at the `add` method.
+```java
+public final int add(int var1, int var2) {
+    FixedValue var10000 = this.CGLIB$CALLBACK_0;
+    if (var10000 == null) {
+        CGLIB$BIND_CALLBACKS(this);
+        var10000 = this.CGLIB$CALLBACK_0;
+    }
+
+    Object var3 = var10000.loadObject();
+    return var3 == null ? 0 : ((Number)var3).intValue();
+}
+```
+
+So what is `this.CGLIB$CALLBACK_0`?
+Maybe we can add a breakpoint to see what it is.
+I will add a breakpoint as follows.
+![breakpoint.png](pic/v3/breakpoint.png)
+
+Let's run the `main` method in `AppV3` and pause at the above breakpoint.
+![value.png](pic/v3/value.png)
+We can see that the `CGLIB$CALLBACK_0` field is filled with an instance of type `SimpleFixedValue`,
+and this instance seems to be exactly the same with `fixedValue` object inside [AppV3.kt](app/src/main/kotlin/com/demo/AppV3.kt).
+
+OK, let's go back to the `add` method (I added some comment below)
+```java
+public final int add(int var1, int var2) {
+    // as we observed previously,
+    // when `add` method is called,
+    // `this.CGLIB$CALLBACK_0` is an instance of type `SimpleFixedValue` 
+    FixedValue var10000 = this.CGLIB$CALLBACK_0;
+    if (var10000 == null) {
+        CGLIB$BIND_CALLBACKS(this);
+        var10000 = this.CGLIB$CALLBACK_0;
+    }
+    
+    // so var10000.loadObject() should return 42 (and it will be converted to an `Integer`)
+    Object var3 = var10000.loadObject();
+    // the return value will be 42
+    return var3 == null ? 0 : ((Number)var3).intValue();
+}
+```
+
+Let's continue with [MethodInterceptor.md](MethodInterceptor.md)
