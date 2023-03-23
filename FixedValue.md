@@ -255,7 +255,7 @@ I will add a breakpoint as follows.
 Let's run the `main` method in `AppV3` and pause at the above breakpoint.
 ![value.png](pic/v3/value.png)
 We can see that the `CGLIB$CALLBACK_0` field is filled with an instance of type `SimpleFixedValue`,
-and this instance seems to be exactly the same with `fixedValue` object inside [AppV3.kt](app/src/main/kotlin/com/demo/AppV3.kt).
+and this instance seems to be exactly the same with `fixedValue` object inside [AppV3.kt](app/src/main/kotlin/com/demo/AppV3.kt) (in line 17).
 
 OK, let's go back to the `add` method (I added some comment below)
 ```java
@@ -276,4 +276,45 @@ public final int add(int var1, int var2) {
 }
 ```
 
-Let's continue with [MethodInterceptor.md](MethodInterceptor.md)
+Let's take a look at some other method, say `hashCode` method.
+```java
+public final int hashCode() {
+    FixedValue var10000 = this.CGLIB$CALLBACK_0;
+    if (var10000 == null) {
+        CGLIB$BIND_CALLBACKS(this);
+        var10000 = this.CGLIB$CALLBACK_0;
+    }
+
+    Object var1 = var10000.loadObject();
+    return var1 == null ? 0 : ((Number)var1).intValue();
+}
+```
+Do you think its code looks exactly the same with that of the `add` method?
+I think so.
+
+So if you add something like `println(calculator.hasCode())`
+into [AppV3.kt](app/src/main/kotlin/com/demo/AppV3.kt), you will get `42`, too.
+
+Since the `hashCode` method return `int` and `SimpleFixedValue` always provide Integer `42`, 
+so nothing will go wrong (i.e. the type is consistent).
+
+But what about the `toString` method?
+```java
+public final String toString() {
+    FixedValue var10000 = this.CGLIB$CALLBACK_0;
+    if (var10000 == null) {
+        CGLIB$BIND_CALLBACKS(this);
+        var10000 = this.CGLIB$CALLBACK_0;
+    }
+
+    return (String)var10000.loadObject();
+}
+```
+Since `var10000.loadObject()` returns `42` (its type is `Integer` instead of `int`),
+and `Integer` cannot be converted to a `String`,
+so a `java.lang.ClassCastException` will be thrown if you add
+`println(calculator.toString())` to [AppV3.kt](app/src/main/kotlin/com/demo/AppV3.kt)
+
+
+OK, so `FixedValue` seems to be a little boring,
+let's continue with [MethodInterceptor.md](MethodInterceptor.md).

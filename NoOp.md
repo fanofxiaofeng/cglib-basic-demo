@@ -205,4 +205,4 @@ public class IntegerAdder$$EnhancerByCGLIB$$81dc231c extends IntegerAdder implem
 
 We can that there is no `override` version for the `add` method in this child class.
 
-Let's continue with [FixedValue.md](FixedValue.md)
+Let's continue with [FixedValue.md](FixedValue.md).
