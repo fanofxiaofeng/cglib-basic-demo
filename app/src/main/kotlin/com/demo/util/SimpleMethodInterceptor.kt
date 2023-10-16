@@ -18,11 +18,12 @@ class SimpleMethodInterceptor : MethodInterceptor {
         proxy: net.sf.cglib.proxy.MethodProxy
     ): Any {
         // "obj" is an instance of the child class,
-        // proxy.invokeSuper(...) will finally invoke corresponding method in parent class (i.e. "IntegerCalculator" class)
-        val result: Any = proxy.invokeSuper(obj, args)
-        println("params: " + java.util.Arrays.toString(args))
+        // proxy.invokeSuper(...) will finally invoke corresponding method in parent class (i.e. "IntegerAdded" class)
+        val result = proxy.invokeSuper(obj, args)
+        println("output from SimpleMethodInterceptor begins >>>")
+        println("params: " + args.contentToString())
         println("result: $result")
-        println()
+        println("<<< output from SimpleMethodInterceptor ends")
         return result
     }
 }
